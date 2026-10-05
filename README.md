@@ -2,6 +2,8 @@
 
 Halaman statis ucapan ulang tahun — elegan, responsif, dibuat dengan **HTML, CSS, dan JavaScript murni** (tanpa framework, tanpa backend, tanpa proses build).
 
+**Situs live:** <https://yuliuspratama.github.io/ucapan-ulang-tahun-35/>
+
 Fakta yang dirayakan: **lahir 9 Oktober 1991**, merayakan **usia ke-35 pada tahun 2026**.
 
 ## Struktur project
@@ -12,6 +14,7 @@ Fakta yang dirayakan: **lahir 9 Oktober 1991**, merayakan **usia ke-35 pada tahu
 ├── config.js               # SATU-SATUNYA tempat mengedit nama, tanggal, dan seluruh teks
 ├── styles.css              # palet feminin lembut, tipografi, responsif
 ├── script.js               # suntik config, partikel melayang, confetti, reveal, a11y
+├── .nojekyll               # matikan Jekyll saat Pages mem-build dari branch
 ├── assets/
 │   ├── favicon.svg
 │   ├── placeholder-1.svg
@@ -22,6 +25,8 @@ Fakta yang dirayakan: **lahir 9 Oktober 1991**, merayakan **usia ke-35 pada tahu
 │   ├── validate_consistency.py # config.js harus identik dengan fallback di HTML
 │   ├── sync_html.py            # salin nilai config.js ke fallback HTML
 │   ├── qa_browser.mjs          # QA browser nyata via CDP (butuh chromium)
+│   ├── live_check.mjs          # uji URL live: cold load, navigasi anchor, refresh
+│   ├── live_scroll_shot.mjs    # scroll seluruh halaman + screenshot per section
 │   └── cleanup.py              # buang artefak sementara QA
 ├── qa-shots/               # screenshot hasil QA (diabaikan oleh git)
 └── README.md
@@ -111,7 +116,7 @@ QA browser nyata (butuh `chromium` dan Node >= 22):
 ```sh
 chromium --headless=new --no-sandbox --remote-debugging-port=9222 about:blank &
 python3 -m http.server 8901 &
-node tests/qa_browser.mjs             # PASS - 147 pemeriksaan
+node tests/qa_browser.mjs              # PASS - 147 pemeriksaan
 ```
 
 Yang diperiksa `qa_browser.mjs`:
@@ -126,9 +131,42 @@ Yang diperiksa `qa_browser.mjs`:
 
 Screenshot tiap viewport tersimpan di `qa-shots/`.
 
+## Verifikasi situs live
+
+`qa_browser.mjs` menerima URL sebagai argumen pertama, sehingga suite yang sama bisa dijalankan langsung terhadap URL publik:
+
+```sh
+node tests/qa_browser.mjs https://yuliuspratama.github.io/ucapan-ulang-tahun-35/
+# PASS - 147 pemeriksaan lolos, 0 masalah
+```
+
+Tambahan dua skrip khusus untuk deployment:
+
+```sh
+# cold load + klik skip-link (anchor #main) + hard refresh, satu tab CDP
+node tests/live_check.mjs https://yuliuspratama.github.io/ucapan-ulang-tahun-35/
+
+# scroll seluruh halaman supaya animasi reveal fired, lalu screenshot per section
+node tests/live_scroll_shot.mjs https://yuliuspratama.github.io/ucapan-ulang-tahun-35/ qa-shots
+```
+
+`live_scroll_shot.mjs` diperlukan saat meninjau visual: `Page.captureScreenshot` dengan `captureBeyondViewport` **tidak** memicu `IntersectionObserver`, jadi elemen `.reveal` di bawah fold tetap `opacity: 0` dan tampak seperti halaman kosong. Setelah halaman di-scroll dulu, seluruh 14 elemen reveal terlihat dan ketiga gambar galeri termuat (`naturalWidth` 200).
+
+## Cara deploy ulang
+
+Pages memakai **build_type `legacy`** dari branch `main` (bukan GitHub Actions), karena token `gh` pada account ini ber-scope `gist, read:org, repo` — **tanpa scope `workflow`**, sehingga file `.github/workflows/*.yml` akan ditolak saat push. Publishing dari branch otomatis membangun ulang setiap kali `main` berubah.
+
+```sh
+git push origin main
+# tunggu ~30 detik, lalu cek:
+gh api repos/yuliuspratama/ucapan-ulang-tahun-35/pages/builds/latest --jq .status
+```
+
 ## Catatan teknis
 
 - Struktur flat dengan path relatif (`styles.css`, `script.js`, `assets/...`), tanpa build — langsung bisa dipublikasikan ke GitHub Pages.
+- `.nojekyll` disables Jekyll sehingga file served apa adanya.
 - Tanpa framework, jadi tidak ada hydration; yang perlu diwadai adalah layout shift dan FOUC. Keduanya sudah dicek: lebar dokumen selalu sama dengan lebar viewport dan tidak ada horizontal scroll.
 - Font dimuat dari Google Fonts. Bila diblokir atau offline, halaman tetap rapi dengan font fallback (`Times New Roman` / `system-ui`).
 - `config.js` sengaja dimuat tanpa `defer` agar tersedia sebelum `script.js` berjalan.
+- Nilai `nama` masih `"Saudari"` (placeholder netral) karena nama asli belum diberikan. Ganti satu baris di `config.js`.

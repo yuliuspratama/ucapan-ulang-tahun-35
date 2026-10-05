@@ -1,0 +1,16 @@
+# Screenshot hasil QA - bukan bagian dari situs yang dipublikasikan
+qa-shots/
+
+# Artefak sementara
+.qa-venv/
+node_modules/
+
+# Rahasia (kebiasaan aman, meski repo ini tidak memakainya)
+.env
+*.key
+*.pem
+credentials.json
+
+# OS
+.DS_Store
+Thumbs.db

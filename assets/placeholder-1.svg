@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 360" role="img" aria-label="Tempat foto kenangan pertama">
+  <rect width="480" height="360" fill="#f3d4d8"/>
+  <circle cx="240" cy="150" r="56" fill="#d98ba0" opacity="0.45"/>
+  <rect x="184" y="220" width="112" height="14" rx="7" fill="#b8617a" opacity="0.5"/>
+  <rect x="210" y="246" width="60" height="10" rx="5" fill="#c9a0b4" opacity="0.6"/>
+  <text x="240" y="320" text-anchor="middle" font-family="Georgia, serif" font-size="20" fill="#b8617a">[Foto 1 — ganti]</text>
+</svg>

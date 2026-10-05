@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f7e9ee" />
+  <meta name="color-scheme" content="light" />
+  <title>Selamat Ulang Tahun ke-35</title>
+  <meta name="description" content="Situs ucapan ulang tahun ke-35 - penuh kasih, hangat, dan elegan. Dibuat dengan HTML, CSS, dan JavaScript murni." />
+  <meta property="og:title" content="Selamat Ulang Tahun ke-35" />
+  <meta property="og:description" content="Sebuah halaman ucapan ulang tahun yang lembut dan elegan." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="assets/favicon.svg" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Lewati ke konten utama</a>
+
+  <!-- Lapisan partikel melayang (diatur oleh script.js) -->
+  <div class="floating-layer" aria-hidden="true" id="floating-layer"></div>
+
+  <!-- Confetti canvas, dimatikan saat prefers-reduced-motion -->
+  <canvas class="confetti-canvas" id="confetti-canvas" aria-hidden="true"></canvas>
+
+  <header class="hero" id="hero">
+    <div class="hero__inner">
+      <p class="hero__eyebrow reveal"><time datetime="2026-10-09" data-config="tanggalPerayaan">9 Oktober 2026</time></p>
+      <h1 class="hero__title reveal">
+        Selamat Ulang Tahun<br />
+        <span class="hero__age" data-config="usia" aria-label="usia ke-35">ke-35</span>
+      </h1>
+      <p class="hero__subtitle reveal">
+        Untuk <span class="birthday-name" data-config="nama">Saudari</span>
+      </p>
+      <p class="hero__caption reveal">
+        Lahir pada <span data-config="tanggalLahir">9 Oktober 1991</span> - tiga puluh lima tahun penuh cahaya, kasih, dan kenangan.
+      </p>
+      <button class="hero__cta" id="celebrate-btn" type="button" aria-label="Hujankan perayaan">
+        <span class="hero__cta-icon" aria-hidden="true">&#10022;</span>
+        Rayakan bersama
+      </button>
+    </div>
+    <div class="hero__scroll-hint" aria-hidden="true">
+      <span></span>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- Sambutan: dua paragraf utama, ditampilkan utuh -->
+    <section class="section section--intro" aria-labelledby="intro-title">
+      <div class="section__inner reveal">
+        <h2 class="section__title" id="intro-title">Sambutan</h2>
+        <div class="prose">
+          <p data-config="sambutan.0">Hari ini, 9 Oktober 2026, tibalah hari yang kita nantikan: ulang tahun ke-35 Saudari. Tepat tiga puluh lima tahun lalu, pada 9 Oktober 1991, dunia diberi hadiah seorang perempuan yang hangat, lembut, dan penuh cahaya. Sejak saat itu, setiap hari yang kita jalani terasa sedikit lebih terang.</p>
+          <p data-config="sambutan.1">Halaman kecil ini bukan sekadar ucapan. Ia adalah ruang untuk mengenang senyum, ketawa, dan semua momen yang telah Saudari bagi kepada kita. Semoga setiap kata di sini menjadi pengingat: kau dihargai, kau dicintai, dan kau tidak pernah berjalan sendirian.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Satu quotation -->
+    <section class="section section--quote" aria-labelledby="quote-title">
+      <div class="section__inner reveal">
+        <h2 class="section__title visually-hidden" id="quote-title">Kutipan</h2>
+        <blockquote class="quote">
+          <p data-config="kutipan">“Bahagia bukan soal bertambahnya angka, melainkan bertambahnya alasan untuk cerah di hari esok.”</p>
+          <cite class="quote__cite">&mdash; Ucapan untukmu, di hari yang spesial ini.</cite>
+        </blockquote>
+      </div>
+    </section>
+
+    <!-- Galeri: foto masih placeholder, takarir diatur di config.js -->
+    <section class="section section--gallery" aria-labelledby="gallery-title">
+      <div class="section__inner">
+        <h2 class="section__title reveal" id="gallery-title">Galeri Kenangan</h2>
+        <ul class="gallery">
+          <li class="gallery__item reveal" tabindex="0">
+            <figure>
+              <img src="assets/placeholder-1.svg" alt="Ruang untuk foto kenangan pertama - ganti dengan foto yang bermakna." loading="lazy" width="480" height="360" />
+              <figcaption class="gallery__caption" data-config="kenangan.0">Tempat untuk foto kenangan pertama - ganti dengan foto yang paling kamu sayangi.</figcaption>
+            </figure>
+          </li>
+          <li class="gallery__item reveal" tabindex="0">
+            <figure>
+              <img src="assets/placeholder-2.svg" alt="Ruang untuk foto kenangan kedua - ganti dengan foto yang bermakna." loading="lazy" width="480" height="360" />
+              <figcaption class="gallery__caption" data-config="kenangan.1">Tempat untuk foto kenangan kedua - ganti dengan foto yang paling membuatmu tersenyum.</figcaption>
+            </figure>
+          </li>
+          <li class="gallery__item reveal" tabindex="0">
+            <figure>
+              <img src="assets/placeholder-3.svg" alt="Ruang untuk foto kenangan ketiga - ganti dengan foto yang bermakna." loading="lazy" width="480" height="360" />
+              <figcaption class="gallery__caption" data-config="kenangan.2">Tempat untuk foto kenangan ketiga - ganti dengan foto yang paling ingin kamu ingat.</figcaption>
+            </figure>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Ucapan keluarga, tiga kartu -->
+    <section class="section section--messages" aria-labelledby="messages-title">
+      <div class="section__inner">
+        <h2 class="section__title reveal" id="messages-title">Ucapan dari yang Menyayangimu</h2>
+        <ul class="messages">
+          <li class="message reveal">
+            <p class="message__text" data-config="ucapan.0.0">Semoga setiap langkahmu ke depan terasa ringan, dan selalu ada tempat pulang yang hangat.</p>
+            <p class="message__from">&mdash; <span class="message__from-name" data-config="ucapan.0.1">Keluarga</span></p>
+          </li>
+          <li class="message reveal">
+            <p class="message__text" data-config="ucapan.1.0">Terima kasih sudah menjadi teman yang selalu hadir dalam hal-hal kecil yang justru paling penting.</p>
+            <p class="message__from">&mdash; <span class="message__from-name" data-config="ucapan.1.1">Teman-teman</span></p>
+          </li>
+          <li class="message reveal">
+            <p class="message__text" data-config="ucapan.2.0">Semoga tahun ini memberimu keberanian untuk percaya pada setiap keputusan besar yang kamu ambil.</p>
+            <p class="message__from">&mdash; <span class="message__from-name" data-config="ucapan.2.1">Rekan kerja</span></p>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p class="footer__text">
+      Dibuat dengan kasih &middot; <span class="birthday-name" data-config="nama">Saudari</span> &middot; <span data-config="tanggalPerayaan">9 Oktober 2026</span>
+    </p>
+    <p class="footer__credit">Halaman statis &middot; HTML, CSS, dan JavaScript murni</p>
+  </footer>
+
+  <!-- config.js dimuat lebih dulu agar script.js bisa menyuntik teks dari konfigurasi -->
+  <script src="config.js"></script>
+  <script src="script.js" defer></script>
+</body>
+</html>

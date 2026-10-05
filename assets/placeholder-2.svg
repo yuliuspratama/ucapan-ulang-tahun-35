@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 360" role="img" aria-label="Tempat foto kenangan kedua">
+  <rect width="480" height="360" fill="#f7e9ee"/>
+  <path d="M120 280c40-80 200-80 240 0z" fill="#d98ba0" opacity="0.4"/>
+  <circle cx="170" cy="160" r="34" fill="#b8617a" opacity="0.4"/>
+  <circle cx="300" cy="160" r="34" fill="#c9a0b4" opacity="0.5"/>
+  <text x="240" y="320" text-anchor="middle" font-family="Georgia, serif" font-size="20" fill="#b8617a">[Foto 2 — ganti]</text>
+</svg>

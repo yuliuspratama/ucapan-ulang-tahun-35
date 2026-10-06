@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#f7e9ee" />
   <meta name="color-scheme" content="light" />
-  <title>Selamat Ulang Tahun ke-35</title>
-  <meta name="description" content="Situs ucapan ulang tahun ke-35 - penuh kasih, hangat, dan elegan. Dibuat dengan HTML, CSS, dan JavaScript murni." />
-  <meta property="og:title" content="Selamat Ulang Tahun ke-35" />
+  <title>Selamat Ulang Tahun ke-35 DayDay</title>
+  <meta name="description" content="Situs ucapan ulang tahun ke-35 DayDay - penuh kasih, hangat, dan elegan. Dibuat dengan HTML, CSS, dan JavaScript murni." />
+  <meta property="og:title" content="Selamat Ulang Tahun ke-35 DayDay" />
   <meta property="og:description" content="Sebuah halaman ucapan ulang tahun yang lembut dan elegan." />
   <meta property="og:type" content="website" />
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
@@ -26,6 +26,15 @@
   <!-- Confetti canvas, dimatikan saat prefers-reduced-motion -->
   <canvas class="confetti-canvas" id="confetti-canvas" aria-hidden="true"></canvas>
 
+  <!-- Banner spesial hari ulang tahun (otomatis muncul saat hari H, dikendalikan script.js via class .is-birthday pada <html>) -->
+  <div class="birthday-banner" id="birthday-banner" role="status" aria-live="polite" hidden>
+    <div class="birthday-banner__inner">
+      <span class="birthday-banner__icon" aria-hidden="true">&#127881;</span>
+      <span class="birthday-banner__text">Selamat ulang tahun, <strong data-config="nama">DayDay</strong>! &#10084;</span>
+      <span class="birthday-banner__icon" aria-hidden="true">&#127881;</span>
+    </div>
+  </div>
+
   <header class="hero" id="hero">
     <div class="hero__inner">
       <p class="hero__eyebrow reveal"><time datetime="2026-10-09" data-config="tanggalPerayaan">9 Oktober 2026</time></p>
@@ -34,11 +43,38 @@
         <span class="hero__age" data-config="usia" aria-label="usia ke-35">ke-35</span>
       </h1>
       <p class="hero__subtitle reveal">
-        Untuk <span class="birthday-name" data-config="nama">Saudari</span>
+        Untuk <span class="birthday-name" data-config="nama">DayDay</span>
       </p>
       <p class="hero__caption reveal">
         Lahir pada <span data-config="tanggalLahir">9 Oktober 1991</span> - tiga puluh lima tahun penuh cahaya, kasih, dan kenangan.
       </p>
+
+      <!-- COUNTDOWN live ke ulang tahun berikutnya. Auto-increment: saat hari H lewat, otomatis pindah ke ultah tahun depan. -->
+      <div class="countdown reveal" id="countdown" aria-live="polite" aria-atomic="true">
+        <p class="countdown__label" data-cd-label>Menuju ulang tahun ke-35 DayDay</p>
+        <div class="countdown__digits" role="timer">
+          <div class="countdown__unit">
+            <span class="countdown__num" data-cd-days>00</span>
+            <span class="countdown__cap">hari</span>
+          </div>
+          <div class="countdown__sep" aria-hidden="true">:</div>
+          <div class="countdown__unit">
+            <span class="countdown__num" data-cd-hours>00</span>
+            <span class="countdown__cap">jam</span>
+          </div>
+          <div class="countdown__sep" aria-hidden="true">:</div>
+          <div class="countdown__unit">
+            <span class="countdown__num" data-cd-mins>00</span>
+            <span class="countdown__cap">menit</span>
+          </div>
+          <div class="countdown__sep" aria-hidden="true">:</div>
+          <div class="countdown__unit">
+            <span class="countdown__num" data-cd-secs>00</span>
+            <span class="countdown__cap">detik</span>
+          </div>
+        </div>
+      </div>
+
       <button class="hero__cta" id="celebrate-btn" type="button" aria-label="Hujankan perayaan">
         <span class="hero__cta-icon" aria-hidden="true">&#10022;</span>
         Rayakan bersama
@@ -55,8 +91,8 @@
       <div class="section__inner reveal">
         <h2 class="section__title" id="intro-title">Sambutan</h2>
         <div class="prose">
-          <p data-config="sambutan.0">Hari ini, 9 Oktober 2026, tibalah hari yang kita nantikan: ulang tahun ke-35 Saudari. Tepat tiga puluh lima tahun lalu, pada 9 Oktober 1991, dunia diberi hadiah seorang perempuan yang hangat, lembut, dan penuh cahaya. Sejak saat itu, setiap hari yang kita jalani terasa sedikit lebih terang.</p>
-          <p data-config="sambutan.1">Halaman kecil ini bukan sekadar ucapan. Ia adalah ruang untuk mengenang senyum, ketawa, dan semua momen yang telah Saudari bagi kepada kita. Semoga setiap kata di sini menjadi pengingat: kau dihargai, kau dicintai, dan kau tidak pernah berjalan sendirian.</p>
+          <p data-config="sambutan.0">Hari ini, 9 Oktober 2026, tibalah hari yang kita nantikan: ulang tahun ke-35 DayDay. Tepat tiga puluh lima tahun lalu, pada 9 Oktober 1991, dunia diberi hadiah seorang perempuan yang hangat, kuat, dan penuh kasih.</p>
+          <p data-config="sambutan.1">Tiga puluh lima tahun bukan hanya angka — ia adalah jejak langkah, tawa yang dibagi, air mata yang diusap, dan mimpi-mimpi yang perlahan menjadi nyata. Terima kasih sudah menjadi dirimu, DayDay — persis sebagaimana adanya.</p>
         </div>
       </div>
     </section>
@@ -66,7 +102,7 @@
       <div class="section__inner reveal">
         <h2 class="section__title visually-hidden" id="quote-title">Kutipan</h2>
         <blockquote class="quote">
-          <p data-config="kutipan">“Bahagia bukan soal bertambahnya angka, melainkan bertambahnya alasan untuk cerah di hari esok.”</p>
+          <p data-config="kutipan">Tahun ini, semoga setiap pagi membawa tenang, dan setiap malam membawa syukur.</p>
           <cite class="quote__cite">&mdash; Ucapan untukmu, di hari yang spesial ini.</cite>
         </blockquote>
       </div>
@@ -105,11 +141,11 @@
         <h2 class="section__title reveal" id="messages-title">Ucapan dari yang Menyayangimu</h2>
         <ul class="messages">
           <li class="message reveal">
-            <p class="message__text" data-config="ucapan.0.0">Semoga setiap langkahmu ke depan terasa ringan, dan selalu ada tempat pulang yang hangat.</p>
+            <p class="message__text" data-config="ucapan.0.0">Selamat ulang tahun, DayDay! Semoga tahun ini penuh kebahagiaan yang sederhana namun berarti.</p>
             <p class="message__from">&mdash; <span class="message__from-name" data-config="ucapan.0.1">Keluarga</span></p>
           </li>
           <li class="message reveal">
-            <p class="message__text" data-config="ucapan.1.0">Terima kasih sudah menjadi teman yang selalu hadir dalam hal-hal kecil yang justru paling penting.</p>
+            <p class="message__text" data-config="ucapan.1.0">Semoga setiap impian yang kamu simpan perlahan menemukan jalannya menuju kenyataan.</p>
             <p class="message__from">&mdash; <span class="message__from-name" data-config="ucapan.1.1">Teman-teman</span></p>
           </li>
           <li class="message reveal">
@@ -123,7 +159,7 @@
 
   <footer class="footer">
     <p class="footer__text">
-      Dibuat dengan kasih &middot; <span class="birthday-name" data-config="nama">Saudari</span> &middot; <span data-config="tanggalPerayaan">9 Oktober 2026</span>
+      Dibuat dengan kasih &middot; <span class="birthday-name" data-config="nama">DayDay</span> &middot; <span data-config="tanggalPerayaan">9 Oktober 2026</span>
     </p>
     <p class="footer__credit">Halaman statis &middot; HTML, CSS, dan JavaScript murni</p>
   </footer>

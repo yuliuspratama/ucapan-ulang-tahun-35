@@ -337,3 +337,165 @@ figure { margin: 0; }
   .section--messages { background: #fff; }
   .section--quote { background: #fff; }
 }
+
+/* ============================================================
+   COUNTDOWN - live menuju ulang tahun berikutnya
+   ============================================================ */
+.countdown {
+  margin: 1.5rem auto 0;
+  padding: 1rem 1.25rem;
+  max-width: 28rem;
+  text-align: center;
+  border: 1px solid var(--c-border, #ecd0d8);
+  border-radius: 0.75rem;
+  background: linear-gradient(180deg, rgba(255,255,255,0.55), rgba(247,233,238,0.35));
+  backdrop-filter: blur(4px);
+}
+.countdown__label {
+  margin: 0 0 0.6rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  color: var(--c-text-soft, #7a5a64);
+  font-family: var(--font-ui, "Poppins", sans-serif);
+}
+.countdown__digits {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0.35rem;
+}
+.countdown__unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 3rem;
+}
+.countdown__num {
+  font-family: var(--font-display, "Cormorant Garamond", serif);
+  font-size: 1.85rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--c-accent, #9c4560);
+  font-variant-numeric: tabular-nums;
+}
+.countdown__cap {
+  margin-top: 0.25rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-text-soft, #7a5a64);
+}
+.countdown__sep {
+  font-size: 1.5rem;
+  color: var(--c-border, #ecd0d8);
+  align-self: center;
+  margin-bottom: 1.2rem;
+}
+@media (max-width: 480px) {
+  .countdown { padding: 0.85rem 0.5rem; }
+  .countdown__num { font-size: 1.5rem; }
+  .countdown__unit { min-width: 2.4rem; }
+  .countdown__sep { font-size: 1.2rem; margin-bottom: 1rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .countdown { animation: none !important; }
+}
+
+/* ============================================================
+   TEMA SPESIAL HARI ULANG TAHUN
+   Dikendalikan oleh script.js yang menambahkan class .is-birthday
+   pada <html> saat tanggal kalender WIB == 9 Oktober.
+   ============================================================ */
+
+/* Banner ucapan yang muncul hanya saat hari H */
+.birthday-banner {
+  display: none;
+  position: relative;
+  z-index: 50;
+  margin: 0 auto;
+  padding: 0.75rem 1rem;
+  max-width: 36rem;
+  background: linear-gradient(90deg, #ffd9e0 0%, #ffe9c9 50%, #ffd9e0 100%);
+  border-top: 2px solid #d98ba0;
+  border-bottom: 2px solid #d98ba0;
+  text-align: center;
+  font-family: var(--font-ui, "Poppins", sans-serif);
+  font-weight: 500;
+  color: #4a2f3a;
+  box-shadow: 0 4px 16px rgba(217, 139, 160, 0.25);
+}
+.birthday-banner__inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.birthday-banner__icon {
+  font-size: 1.3rem;
+  line-height: 1;
+}
+.birthday-banner__text {
+  font-size: 1rem;
+}
+.birthday-banner__text strong {
+  color: #9c4560;
+  font-weight: 700;
+}
+
+/* Saat class .is-birthday aktif pada <html> */
+html.is-birthday .birthday-banner {
+  display: block;
+  animation: banner-glow 2.5s ease-in-out infinite alternate;
+}
+@keyframes banner-glow {
+  from { box-shadow: 0 4px 16px rgba(217, 139, 160, 0.25); }
+  to   { box-shadow: 0 4px 28px rgba(217, 139, 160, 0.55); }
+}
+
+/* Palet & elemen hero berubah menjadi festive saat hari H */
+html.is-birthday {
+  --c-bg: #fff5f0;
+  --c-accent: #c44569;
+}
+html.is-birthday body {
+  background: radial-gradient(circle at 50% 0%, #fff0e6 0%, var(--c-bg) 70%);
+}
+html.is-birthday .hero {
+  background: linear-gradient(180deg, #ffe1d6 0%, #fff5f0 100%);
+}
+html.is-birthday .hero__title {
+  text-shadow: 0 0 30px rgba(196, 69, 105, 0.35);
+}
+html.is-birthday .hero__age {
+  background: linear-gradient(90deg, #c44569, #f8b500);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+html.is-birthday .floating-layer .particle {
+  animation-duration: 12s, 5s !important;
+  filter: drop-shadow(0 0 6px rgba(255, 200, 100, 0.6));
+}
+
+/* Tombol rayakan lebih menonjol saat hari H */
+html.is-birthday .hero__cta {
+  background: linear-gradient(90deg, #c44569, #f8b500);
+  box-shadow: 0 6px 20px rgba(196, 69, 105, 0.4);
+  animation: cta-pulse 2s ease-in-out infinite;
+}
+@keyframes cta-pulse {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-2px); }
+}
+
+/* Honor reduced motion: matikan semua animasi tema hari-H */
+@media (prefers-reduced-motion: reduce) {
+  html.is-birthday .birthday-banner,
+  html.is-birthday .hero__cta,
+  html.is-birthday .floating-layer .particle {
+    animation: none !important;
+  }
+  html.is-birthday .hero__title { text-shadow: none; }
+}

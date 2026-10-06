@@ -206,14 +206,14 @@ const ANIM_JS = `(() => {
 const FACTS_JS = `(() => {
   const t = document.body.innerText;
   return {
-    adaNama: t.includes('Saudari'),
+    adaNama: t.includes('DayDay'),
     adaTanggalLahir: t.includes('9 Oktober 1991'),
     adaUsia35: /ke-35/.test(t),
     adaTahun2026: t.includes('2026'),
     adaSambutan: t.includes('tibalah hari yang kita nantikan'),
-    adaParagraf2: t.includes('Halaman kecil ini bukan sekadar ucapan'),
-    adaKutipan: t.includes('Bahagia bukan soal bertambahnya angka'),
-    adaKutipanTanda: t.includes('“Bahagia'),
+    adaParagraf2: t.includes('Tiga puluh lima tahun bukan hanya angka'),
+    adaKutipan: t.includes('Tahun ini, semoga setiap pagi membawa tenang'),
+    adaKutipanTanda: t.includes('Tahun ini'),
     adaUcapanKeluarga: t.includes('Keluarga'),
     sisaPlaceholder: /\\[[A-Za-z]/.test(t),
     filled: document.querySelectorAll('[data-filled="true"]').length,
@@ -516,9 +516,9 @@ async function noJsFallbackTest(cdp) {
   await sleep(2500);
   const r = await cdp.send("Runtime.evaluate", {
     expression: `(() => { const t = document.body.innerText;
-      return { nama: t.includes('Saudari'), lahir: t.includes('9 Oktober 1991'),
+      return { nama: t.includes('DayDay'), lahir: t.includes('9 Oktober 1991'),
                usia: /ke-35/.test(t), sambutan: t.includes('tibalah hari yang kita nantikan'),
-               kutipan: t.includes('Bahagia bukan soal bertambahnya angka'),
+               kutipan: t.includes('Tahun ini, semoga setiap pagi membawa tenang'),
                panjang: t.length }; })()`,
     returnByValue: true }, S);
   const f = r.result.value;

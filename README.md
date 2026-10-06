@@ -4,7 +4,56 @@ Halaman statis ucapan ulang tahun — elegan, responsif, dibuat dengan **HTML, C
 
 **Situs live:** <https://yuliuspratama.github.io/ucapan-ulang-tahun-35/>
 
+## Daftar Isi
+
+- [Fitur Otomatis (Countdown + Auto-Increment)](#fitur-otomatis-countdown--auto-increment)
+- [Tema Spesial Hari Ulang Tahun](#tema-spesial-hari-ulang-tahun)
+- [CI Workflow](#ci-workflow)
+- [Struktur Project](#struktur-project)
+
 Fakta yang dirayakan: **lahir 9 Oktober 1991**, merayakan **usia ke-35 pada tahun 2026**.
+
+## Fitur Otomatis (Countdown + Auto-Increment)
+
+Situs ini tetap relevan tanpa edit manual tiap tahun. `script.js` menghitung dari `lahirISO` di `config.js` (zona WIB, `Asia/Jakarta`):
+
+1. **Countdown live** — hitung mundur hari-jam-menit-detik menuju ulang tahun berikutnya, update tiap 1 detik.
+2. **Auto-increment usia** — saat hari ulang tahun berlalu (10 Okt 00:00 WIB), target otomatis pindah ke 9 Okt tahun depan dan usia naik 1. Tidak perlu ubah config.
+3. **Deteksi hari-H** — saat tanggal kalender WIB == 9 Oktober, class `is-birthday` ditambahkan ke `<html>`, memicu tema spesial.
+
+Contoh perilaku:
+- 6 Okt 2026 → countdown ke 9 Okt 2026, usia `ke-35`
+- 9 Okt 2026 00:00–23:59 WIB → `isBirthdayToday=true`, tema spesial aktif
+- 10 Okt 2026 00:01 WIB → auto-shift ke 9 Okt 2027, usia `ke-36`
+- 2030 → tetap relevan, usia `ke-39`
+
+Logika terverifikasi oleh `tests/verify_countdown_logic.py` (8 skenario).
+
+## Tema Spesial Hari Ulang Tahun
+
+Saat hari H tiba, situs otomatis berubah suasana:
+
+- **Banner ucapan** di atas hero: "Selamat ulang tahun, DayDay! ❤" dengan animasi glow
+- **Palet hero berubah** jadi festive (oranye-pink gradient)
+- **Title usia** dengan gradient emas-pink + text-shadow glow
+- **Tombol "Rayakan bersama"** lebih menonjol (gradient + pulse animation)
+- **Confetti otomatis** saat load + burst tiap 30 detik
+- **Partikel melayang** lebih cepat + glow bunga
+
+Semua animasi tema **dihormati `prefers-reduced-motion`** — pengguna yang menyimpan preferensi ini tetap melihat banner dan warna festive, tapi tanpa animasi.
+
+## CI Workflow
+
+GitHub Actions workflow di `.github/workflows/ci.yml` menjalankan:
+
+1. **`validate.py`** — cek file wajib, link/aset internal, fakta inti, semantik HTML
+2. **`validate_consistency.py`** — paksa `config.js` ↔ `index.html` tetap sinkron
+3. **Cek placeholder tersisa** — tolak `Saudari`, `lorem`, `[Nama]`, dll.
+4. **Cek field `lahirISO`** — pastikan countdown + auto-increment berfungsi
+5. **Verifikasi struktur HTML** — elemen countdown (`data-cd-days`) + banner hari-H ada
+6. **Upload artifact** — situs statis siap deploy
+
+Workflow berjalan pada: `push` ke `main`, `pull_request` ke `main`, dan `workflow_dispatch` (manual trigger dari tab Actions).
 
 ## Struktur project
 

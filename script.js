@@ -44,11 +44,14 @@
     const now = new Date();
 
     // Tanggal ultah tahun berjalan (9 Oktober tahun ini)
-    const yearNow = now.getUTCFullYear();
-    // Karena lahirISO sudah +07:00, kita ambil bulan & tanggal UTC-nya
-    // yang merepresentasikan 9 Oktober 00:00 WIB.
-    const bdMonth = born.getUTCMonth();   // 9 (Oktober, 0-index)
-    const bdDate  = born.getUTCDate();    // 9
+    // PENTING: ambil komponen KALENDER dari lahirISO dalam zona WIB,
+    // bukan UTC mentah. new Date("1991-10-09T00:00:00+07:00") tersimpan
+    // sebagai 1991-10-08T17:00Z, sehingga born.getUTCDate() = 8 (salah!).
+    // Konversi dulu ke wall-clock WIB: tambah 7 jam lalu baca getUTC*.
+    const bornWIB = new Date(born.getTime() + 7 * 3600 * 1000);
+    const bdMonth = bornWIB.getUTCMonth();  // 9 (Oktober, 0-index)
+    const bdDate  = bornWIB.getUTCDate();   // 9
+    const bdYear  = bornWIB.getUTCFullYear();
 
     // Cek apakah HARI INI adalah hari ulang tahun (bandingkan tanggal kalender WIB)
     // WIB = UTC+7. Konversi now ke "tanggal WIB".
@@ -66,13 +69,12 @@
                                 (todayMonth === bdMonth && todayDate > bdDate);
     if (alreadyPassedThisYear) nextYear = todayYearWIB + 1;
 
-    // Waktu ultah berikutnya dalam UTC (ekuivalen dengan 9 Okt 00:00 WIB)
-    // Karena born.getUTCHours() = 17 (karena 00:00+07:00 → UTC day sebelumnya 17:00)
-    // Lebih andal: hitung manual sebagai Date.UTC(nextYear, bdMonth, bdDate) - 7h
+    // Waktu ultah berikutnya dalam UTC (ekuivalen dengan 9 Okt 00:00 WIB,
+    // yaitu 8 Okt 17:00 UTC — dihitung manual agar deterministik)
     const nextBirthdayUTC = new Date(Date.UTC(nextYear, bdMonth, bdDate, 0, 0, 0) - 7 * 3600 * 1000);
 
     // Usia pada ulang tahun berikutnya
-    const nextAge = nextYear - born.getUTCFullYear();
+    const nextAge = nextYear - bdYear;
 
     return {
       now: now,
@@ -94,6 +96,21 @@
     // date diinterpretasikan sebagai WIB
     const wib = new Date(date.getTime() + 7 * 3600 * 1000);
     return wib.getUTCDate() + " " + MONTHS_ID[wib.getUTCMonth()] + " " + wib.getUTCFullYear();
+  }
+
+  function pad2(n) { return n < 10 ? "0" + n : "" + n; }
+
+  function formatJamZona(date, offsetHours) {
+    // "HH.MM" sesuai kebiasaan Indonesia, untuk zona offset UTC tertentu
+    const shifted = new Date(date.getTime() + offsetHours * 3600 * 1000);
+    return pad2(shifted.getUTCHours()) + "." + pad2(shifted.getUTCMinutes());
+  }
+
+  function formatZonaLine(target) {
+    // Contoh keluaran: "9 Okt 2026, pukul 00.00 WIB / 01.00 WITA"
+    const wib = new Date(target.getTime() + 7 * 3600 * 1000);
+    const tgl = wib.getUTCDate() + " " + MONTHS_ID[wib.getUTCMonth()].slice(0, 3) + " " + wib.getUTCFullYear();
+    return tgl + ", pukul " + formatJamZona(target, 7) + " WIB / " + formatJamZona(target, 8) + " WITA";
   }
 
   function pad(n) { return n < 10 ? "0" + n : "" + n; }
@@ -157,6 +174,9 @@
       const value = resolvePath(el.getAttribute("data-config"));
       if (typeof value !== "string") return;
       el.textContent = interpolate(value, cfg.nama || "");
+      // Tandai slot terisi — dipakai QA (tests/qa_browser.mjs) memastikan
+      // semua slot data-config berhasil disuntik dari config.js.
+      el.setAttribute("data-filled", "true");
     });
   }
 
@@ -174,6 +194,7 @@
     const mEl = stateEl.querySelector("[data-cd-mins]");
     const sEl = stateEl.querySelector("[data-cd-secs]");
     const labelEl = stateEl.querySelector("[data-cd-label]");
+    const zoneEl = stateEl.querySelector("[data-cd-zone]");
 
     function tick() {
       // Re-evaluasi state setiap tick agar tetap akurat saat lewat tengah malam.
@@ -197,6 +218,14 @@
           labelEl.textContent = "Selamat ulang tahun, " + cfg.nama + "!";
         } else {
           labelEl.textContent = "Menuju ulang tahun " + fresh.nextAgeRoman + " " + cfg.nama;
+        }
+      }
+
+      if (zoneEl) {
+        if (fresh.isBirthdayToday) {
+          zoneEl.textContent = "Hari ini, " + formatTanggalID(fresh.now) + " — WIB & WITA";
+        } else {
+          zoneEl.textContent = formatZonaLine(fresh.nextBirthday);
         }
       }
 

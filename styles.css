@@ -352,11 +352,19 @@ figure { margin: 0; }
   backdrop-filter: blur(4px);
 }
 .countdown__label {
-  margin: 0 0 0.6rem;
+  margin: 0 0 0.25rem;
   font-size: 0.85rem;
   letter-spacing: 0.04em;
   color: var(--c-text-soft, #7a5a64);
   font-family: var(--font-ui, "Poppins", sans-serif);
+}
+.countdown__zone {
+  margin: 0 0 0.6rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.03em;
+  color: var(--c-text-soft, #7a5a64);
+  font-family: var(--font-ui, "Poppins", sans-serif);
+  opacity: 0.85;
 }
 .countdown__digits {
   display: flex;

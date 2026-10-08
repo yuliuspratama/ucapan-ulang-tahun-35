@@ -507,3 +507,227 @@ html.is-birthday .hero__cta {
   }
   html.is-birthday .hero__title { text-shadow: none; }
 }
+
+/* ============================================================
+   MUSIC PLAYER — KHUSUS HARI ULANG TAHUN (9 Oktober, zona WIB)
+   Section tersembunyi via atribut [hidden] dan hanya
+   ditampilkan music-player.js saat class .is-birthday aktif.
+   Semua selector diawali .music-player agar tidak menyentuh
+   aturan yang sudah ada.
+   ============================================================ */
+
+.music-player {
+  position: relative;
+  z-index: 2;
+  padding: var(--space) 1.25rem;
+}
+.music-player[hidden] { display: none; }
+.music-player__inner {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  border-radius: 24px;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.92), rgba(247, 233, 238, 0.85));
+  border: 1px solid var(--c-petal);
+  box-shadow: var(--shadow-soft);
+}
+.music-player__title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.8rem, 5vw, 2.6rem);
+  text-align: center;
+  color: var(--c-ink);
+  margin: 0 0 1.5rem;
+  letter-spacing: 0.01em;
+}
+
+/* Pemilih versi lagu */
+.music-player__tracks {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+.music-player__track {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  padding: 0.6rem 1.3rem;
+  border: 1px solid var(--c-petal);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.75);
+  color: var(--c-ink);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+.music-player__track:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(217, 139, 160, 0.18); }
+.music-player__track.is-active {
+  background: linear-gradient(120deg, var(--c-rose-btn-a), var(--c-rose-btn-b));
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 6px 18px rgba(184, 97, 122, 0.3);
+}
+.music-player__track-sub {
+  font-size: 0.8rem;
+  opacity: 0.85;
+  padding: 0.1rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Baris "sedang diputar" */
+.music-player__now {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+.music-player__disc {
+  width: 56px;
+  height: 56px;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  border-radius: 50%;
+  background: linear-gradient(120deg, var(--c-rose-btn-a), var(--c-rose-btn-b));
+  box-shadow: 0 6px 18px rgba(184, 97, 122, 0.35);
+  animation: disc-spin 6s linear infinite;
+  animation-play-state: paused;
+}
+.music-player__disc.is-spinning { animation-play-state: running; }
+@keyframes disc-spin { to { transform: rotate(360deg); } }
+.music-player__meta { min-width: 0; }
+.music-player__name {
+  margin: 0 0 0.25rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.15rem;
+  color: var(--c-ink);
+}
+.music-player__hint {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--c-rose-deep);
+  letter-spacing: 0.02em;
+}
+
+/* Kontrol: tombol putar + progres */
+.music-player__controls {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+.music-player__btn--main {
+  width: 52px;
+  height: 52px;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 50%;
+  background: linear-gradient(120deg, var(--c-rose-btn-a), var(--c-rose-btn-b));
+  color: #fff;
+  font-size: 1.1rem;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(184, 97, 122, 0.35);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.music-player__btn--main:hover { transform: scale(1.06); box-shadow: 0 10px 26px rgba(184, 97, 122, 0.4); }
+.music-player__btn--main:focus-visible { outline: 3px solid var(--c-rose); outline-offset: 3px; }
+/* Ikon play/pause tampil bergantian lewat class .is-playing pada tombol */
+.music-player__icon--pause { display: none; }
+.music-player__btn--main.is-playing .music-player__icon--play { display: none; }
+.music-player__btn--main.is-playing .music-player__icon--pause { display: block; }
+
+.music-player__time {
+  font-size: 0.85rem;
+  color: var(--c-rose-deep);
+  font-variant-numeric: tabular-nums;
+  min-width: 3.2em;
+  text-align: center;
+}
+.music-player__progress {
+  flex: 1 1 auto;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--c-petal);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.music-player__progress:focus-visible { outline: 3px solid var(--c-rose); outline-offset: 3px; }
+.music-player__progress-fill {
+  width: 0%;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--c-rose-btn-a), var(--c-rose-btn-b));
+}
+
+/* Sakelar lirik */
+.music-player__lyrics-toggle {
+  margin-top: 1.25rem;
+  text-align: center;
+}
+.music-player__lyrics-btn {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  padding: 0.55rem 1.4rem;
+  border: 1px solid var(--c-rose);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--c-rose-deep);
+  cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+.music-player__lyrics-btn:hover { background: var(--c-petal); }
+.music-player__lyrics-btn:focus-visible { outline: 3px solid var(--c-rose); outline-offset: 3px; }
+.music-player__lyrics[hidden] { display: none; }
+.music-player__lyrics {
+  margin-top: 1.25rem;
+  padding: 1.5rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.65);
+  border: 1px dashed var(--c-rose);
+}
+.music-player__lyrics-title {
+  margin: 0 0 0.75rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--c-rose-deep);
+  text-align: center;
+  letter-spacing: 0.03em;
+}
+.music-player__lyrics-text {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  line-height: 1.8;
+  color: var(--c-ink);
+  white-space: pre-wrap;
+  overflow-x: auto;
+  padding: 0 0.25rem;
+}
+.music-player__lyrics-text:focus-visible { outline: 3px solid var(--c-rose); outline-offset: 3px; }
+
+/* Layar kecil: rapikan jarak antar kontrol */
+@media (max-width: 560px) {
+  .music-player__now { gap: 0.75rem; }
+  .music-player__btn--main { width: 46px; height: 46px; }
+  .music-player__disc { width: 48px; height: 48px; font-size: 1.35rem; }
+  .music-player__lyrics { padding: 1rem; }
+}
+
+/* Reduced motion: cakram tidak berputar */
+@media (prefers-reduced-motion: reduce) {
+  .music-player__disc { animation: none !important; }
+  .music-player__track,
+  .music-player__btn--main,
+  .music-player__lyrics-btn { transition: none !important; }
+}

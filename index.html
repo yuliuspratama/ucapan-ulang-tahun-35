@@ -158,6 +158,73 @@
     </section>
   </main>
 
+  <!-- ============================================================
+       MUSIC PLAYER — KHUSUS HARI ULANG TAHUN
+       Section ini tersembunyi (atribut hidden) secara default dan
+       hanya ditampilkan oleh music-player.js saat tanggal kalender
+       WIB == 9 Oktober. Tidak ada data-config di sini: semua teks
+       final (bukan fallback yang perlu disinkronkan).
+       ============================================================ -->
+  <section class="music-player" id="music-player" aria-labelledby="music-title" hidden>
+    <div class="music-player__inner">
+      <h2 class="music-player__title" id="music-title">&#127925; Lagu Ulang Tahun ke-35</h2>
+
+      <!-- Pemilih lagu (dua track) -->
+      <div class="music-player__tracks" role="tablist" aria-label="Pilih lagu">
+        <button class="music-player__track is-active" type="button" role="tab" id="track-tab-1" aria-selected="true" aria-controls="music-panel" data-track="0">
+          <span class="music-player__track-label">Halaman Tiga Puluh Lima</span>
+          <span class="music-player__track-sub">Versi 1</span>
+        </button>
+        <button class="music-player__track" type="button" role="tab" id="track-tab-2" aria-selected="false" aria-controls="music-panel" data-track="1">
+          <span class="music-player__track-label">Halaman Tiga Puluh Lima</span>
+          <span class="music-player__track-sub">Versi 2</span>
+        </button>
+      </div>
+
+      <!-- Panel player -->
+      <div class="music-player__panel" id="music-panel" role="tabpanel" aria-labelledby="track-tab-1">
+        <div class="music-player__now">
+          <span class="music-player__disc" id="music-disc" aria-hidden="true">&#128191;</span>
+          <div class="music-player__meta">
+            <p class="music-player__name" id="music-name">Halaman Tiga Puluh Lima &mdash; Versi 1</p>
+            <p class="music-player__hint" id="music-hint">Ketuk putar untuk mendengarkan lagu ulang tahun</p>
+          </div>
+          <!-- Audio tanpa src: file hanya dipasang music-player.js saat hari-H,
+               sehingga hari biasa tidak ada byte musik yang diunduh -->
+          <audio class="music-player__audio" id="music-audio" preload="metadata">
+            Browser Anda tidak mendukung pemutar audio.
+          </audio>
+        </div>
+
+        <!-- Progres + kontrol -->
+        <div class="music-player__controls">
+          <button class="music-player__btn music-player__btn--main" id="music-play" type="button" aria-label="Putar lagu">
+            <span class="music-player__icon music-player__icon--play" aria-hidden="true">&#9654;</span>
+            <span class="music-player__icon music-player__icon--pause" aria-hidden="true">&#10073;&#10073;</span>
+          </button>
+          <span class="music-player__time" id="music-current">0:00</span>
+          <div class="music-player__progress" id="music-progress" role="slider" tabindex="0" aria-label="Posisi lagu" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-valuetext="0:00">
+            <div class="music-player__progress-fill" id="music-progress-fill"></div>
+          </div>
+          <span class="music-player__time" id="music-duration">0:00</span>
+        </div>
+
+        <!-- Sakelar lirik -->
+        <div class="music-player__lyrics-toggle">
+          <button class="music-player__lyrics-btn" id="music-lyrics-btn" type="button" aria-expanded="false" aria-controls="music-lyrics">
+            Lihat Lirik
+          </button>
+        </div>
+
+        <!-- Lirik (dimuat via fetch dari assets/lirik-35.txt) -->
+        <div class="music-player__lyrics" id="music-lyrics" hidden>
+          <h3 class="music-player__lyrics-title">Lirik &mdash; Halaman Tiga Puluh Lima</h3>
+          <pre class="music-player__lyrics-text" id="music-lyrics-text" tabindex="0">Lirik sedang dimuat&hellip;</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <footer class="footer">
     <p class="footer__text">
       Dibuat dengan kasih &middot; <span class="birthday-name" data-config="nama">DayDay</span> &middot; <span data-config="tanggalPerayaan">9 Oktober 2026</span>
@@ -166,7 +233,9 @@
   </footer>
 
   <!-- config.js dimuat lebih dulu agar script.js bisa menyuntik teks dari konfigurasi -->
+  <!-- music-player.js dimuat defer, mandiri, hanya aktif saat hari ulang tahun -->
   <script src="config.js"></script>
   <script src="script.js" defer></script>
+  <script src="music-player.js" defer></script>
 </body>
 </html>
